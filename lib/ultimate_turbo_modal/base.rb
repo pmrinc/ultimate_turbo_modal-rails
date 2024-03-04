@@ -24,7 +24,9 @@ class UltimateTurboModal::Base < Phlex::HTML
     header_divider: UltimateTurboModal.configuration.header_divider,
     padding: UltimateTurboModal.configuration.padding,
     content_div_data: nil,
-    request: nil, title: nil
+    request: nil,
+    title: nil,
+    close_modal_on_successful_form_submission: UltimateTurboModal.configuration.close_modal_on_successful_form_submission
   )
     @advance = !!advance
     @advance_url = advance if advance.present? && advance.is_a?(String)
@@ -39,6 +41,7 @@ class UltimateTurboModal::Base < Phlex::HTML
     @content_div_data = content_div_data
     @request = request
     @title = title
+    @close_modal_on_successful_form_submission = close_modal_on_successful_form_submission
 
     unless self.class.include?(Turbo::FramesHelper)
       self.class.include Turbo::FramesHelper
@@ -130,6 +133,9 @@ class UltimateTurboModal::Base < Phlex::HTML
   end
 
   def div_dialog(&block)
+    data_action = "keyup@window->modal#closeWithKeyboard click@window->modal#outsideModalClicked click->modal#outsideModalClicked"
+    data_action += " turbo:submit-end->modal#submitEnd" if @close_modal_on_successful_form_submission
+
     div(id: "modal-container",
       class: self.class::DIV_DIALOG_CLASSES,
       role: "dialog",
@@ -142,7 +148,7 @@ class UltimateTurboModal::Base < Phlex::HTML
         modal_target: "container",
         modal_advance_url_value: advance_url,
         modal_allowed_click_outside_selector_value: allowed_click_outside_selector,
-        action: "turbo:submit-end->modal#submitEnd keyup@window->modal#closeWithKeyboard click@window->modal#outsideModalClicked click->modal#outsideModalClicked",
+        action: data_action,
         transition_enter: "ease-out duration-100",
         transition_enter_start: "opacity-0",
         transition_enter_end: "opacity-100",

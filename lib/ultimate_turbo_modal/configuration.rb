@@ -27,6 +27,7 @@ module UltimateTurboModal
       @header_divider = true
       @footer_divider = true
       @allowed_click_outside_selector = []
+      @close_modal_on_successful_form_submission = true
     end
 
     def flavor=(flavor)
@@ -65,6 +66,11 @@ module UltimateTurboModal
     def footer_divider=(footer_divider)
       raise ArgumentError.new("Value must be a boolean.") unless [true, false].include?(footer_divider)
       @footer_divider = footer_divider
+    end
+
+    def close_modal_on_successfull_form_submission=(close_modal_on_successful_form_submission)
+      raise ArgumentError.new("Value must be a boolean.") unless [true, false].include?(close_modal_on_successfull_form_submission)
+      @close_modal_on_successful_form_submission = close_modal_on_successfull_form_submission
     end
   end
 end
