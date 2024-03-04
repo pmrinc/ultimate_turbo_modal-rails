@@ -26,7 +26,7 @@ class UltimateTurboModal::Base < Phlex::HTML
     content_div_data: nil,
     request: nil,
     title: nil,
-    close_modal_on_successful_form_submission: UltimateTurboModal.configuration.close_modal_on_successful_form_submission
+    close_modal_on_successfull_form_submission: UltimateTurboModal.configuration.close_modal_on_successfull_form_submission
   )
     @advance = !!advance
     @advance_url = advance if advance.present? && advance.is_a?(String)
@@ -41,7 +41,7 @@ class UltimateTurboModal::Base < Phlex::HTML
     @content_div_data = content_div_data
     @request = request
     @title = title
-    @close_modal_on_successful_form_submission = close_modal_on_successful_form_submission
+    @close_modal_on_successfull_form_submission = close_modal_on_successfull_form_submission
 
     unless self.class.include?(Turbo::FramesHelper)
       self.class.include Turbo::FramesHelper
@@ -134,7 +134,7 @@ class UltimateTurboModal::Base < Phlex::HTML
 
   def div_dialog(&block)
     data_action = "keyup@window->modal#closeWithKeyboard click@window->modal#outsideModalClicked click->modal#outsideModalClicked"
-    data_action += " turbo:submit-end->modal#submitEnd" if @close_modal_on_successful_form_submission
+    data_action += " turbo:submit-end->modal#submitEnd" if @close_modal_on_successfull_form_submission
 
     div(id: "modal-container",
       class: self.class::DIV_DIALOG_CLASSES,
