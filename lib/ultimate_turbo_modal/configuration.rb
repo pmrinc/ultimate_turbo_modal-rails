@@ -15,7 +15,7 @@ module UltimateTurboModal
     :allowed_click_outside_selector, :allowed_click_outside_selector=, to: :configuration
 
   class Configuration
-    attr_reader :flavor, :close_button, :advance, :padding, :header, :header_divider, :footer_divider
+    attr_reader :flavor, :close_button, :advance, :padding, :header, :header_divider, :footer_divider, :close_modal_on_successfull_form_submission
     attr_accessor :allowed_click_outside_selector
 
     def initialize
